@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CloudTask Kubernetes microservices demonstration" />
+  <title>CloudTask</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">KUBERNETES MICROSERVICES DEMO</div>
+        <h1>CloudTask</h1>
+        <p class="subtitle">A small task system built to demonstrate REST APIs, independent scaling, service-to-service communication, and persistent storage.</p>
+      </div>
+      <div id="connectionBadge" class="connection-badge">Checking services…</div>
+    </header>
+
+    <main>
+      <section class="stats-grid" aria-label="Task statistics">
+        <article class="stat-card"><span>Total</span><strong id="statTotal">—</strong></article>
+        <article class="stat-card"><span>Pending</span><strong id="statPending">—</strong></article>
+        <article class="stat-card"><span>In progress</span><strong id="statProgress">—</strong></article>
+        <article class="stat-card"><span>Completed</span><strong id="statCompleted">—</strong></article>
+        <article class="stat-card"><span>Overdue</span><strong id="statOverdue">—</strong></article>
+        <article class="stat-card"><span>Completion</span><strong id="statRate">—</strong></article>
+      </section>
+
+      <section class="workspace-grid">
+        <article class="panel create-panel">
+          <div class="panel-heading">
+            <div>
+              <div class="eyebrow">CREATE</div>
+              <h2>New task</h2>
+            </div>
+          </div>
+
+          <form id="taskForm">
+            <label>
+              Title
+              <input id="title" name="title" maxlength="120" required placeholder="e.g. Prepare Kubernetes demo" />
+            </label>
+
+            <label>
+              Description
+              <textarea id="description" name="description" maxlength="1000" rows="4" placeholder="Add a short description"></textarea>
+            </label>
+
+            <div class="two-column">
+              <label>
+                Priority
+                <select id="priority" name="priority">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+
+              <label>
+                Due date
+                <input id="dueDate" name="dueDate" type="date" />
+              </label>
+            </div>
+
+            <button class="primary-button" type="submit">Create task</button>
+            <button id="cancelEdit" class="secondary-button" type="button">Reset / cancel edit</button>
+            <p id="formMessage" class="form-message" role="status"></p>
+          </form>
+        </article>
+
+        <article class="panel tasks-panel">
+          <div class="panel-heading tasks-heading">
+            <div>
+              <div class="eyebrow">TASK SERVICE</div>
+              <h2>Tasks</h2>
+            </div>
+            <div class="toolbar">
+              <select id="statusFilter" aria-label="Filter by status">
+                <option value="">All statuses</option>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In progress</option>
+                <option value="completed">Completed</option>
+              </select>
+              <button id="refreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+          </div>
+
+          <div id="taskList" class="task-list" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <section class="architecture-note">
+        <strong>Service flow:</strong>
+        Browser → Frontend Service → Task Service / Analytics Service → MongoDB. Analytics Service also calls the Task Service REST API internally.
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

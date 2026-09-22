@@ -1,0 +1,11 @@
+node_modules/
+.env
+.DS_Store
+coverage/
+*.log
+.vscode/
+.idea/
+
+.artifacts/
+.rendered/
+*.secret.yaml
